@@ -5,6 +5,7 @@
 //  Created by Glenn Posadas on 1/7/22.
 //
 
+import ProgressHUD
 import UIKit
 
 // 3. make a swift app, with 2 screens.
@@ -16,6 +17,7 @@ class ViewController: UIViewController {
   // MARK: - Properties
   // MARK: IBOutlets
   
+  @IBOutlet weak var passwordTextField: UITextField!
   @IBOutlet weak var imageViewLogo: UIImageView!
   
   // MARK: - Functions
@@ -70,8 +72,41 @@ class ViewController: UIViewController {
     // check password if valid
     // call server
     
-    performSegue(withIdentifier: "showSecondScreen",
-                 sender: nil)
+    
+    guard passwordTextField.text != "" else {
+      presentAlert()
+      return
+    }
+    
+    ProgressHUD.show("Please wait...", interaction: false)
+    
+    // simulate server call. like around 3 seconds before showing the next screen.
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+      
+      ProgressHUD.showSucceed()
+      
+      self.performSegue(withIdentifier: "showSecondScreen",
+                        sender: nil)
+    }
+  }
+  
+  func presentAlert() {
+    let alertController = UIAlertController(
+      title: "Error!",
+      message: "Password must not be empty",
+      preferredStyle: .alert
+    )
+    
+    let alertOkAction = UIAlertAction(title: "OK DOKS", style: .default) { action in
+      print("Ok u pressed okay....")
+    }
+    
+    alertController.addAction(alertOkAction)
+    
+    present(alertController, animated: true) {
+      print("okay done presenting alert! currently now presenting")
+    }
   }
   
   // MARK: - Navigation
