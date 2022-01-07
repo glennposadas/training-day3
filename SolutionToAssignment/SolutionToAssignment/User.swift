@@ -9,14 +9,20 @@ import Foundation
 
 // PASS BY REF
 // cutom init method
-class User {
+class User: CustomStringConvertible {
   var name: String
   var age: Int
-}
-
-// PASS BY VALUE
-// may have custom init method OR automatically generated init method
-struct UserStruct {
-  var name: String
-  var age: Int
+  var mobileNumber: String?
+  
+  init(name: String,
+       age: Int,
+       mobileNumber: String?) {
+    self.name = name
+    self.age = age
+    self.mobileNumber = mobileNumber
+  }
+  
+  var description: String {
+    return "User-> " + name + " " + "\(age)" + " " + "\(mobileNumber ?? "No mobile number")"
+  }
 }
